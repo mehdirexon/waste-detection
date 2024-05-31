@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Recycling Monitoring System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    {% if "main.can_control" in user_per %}
+        <link rel="stylesheet" href="{% static "kharazmi/styles/admin.css" %}">
+    {% endif %}
+</head>
+<body>
+<header>
+    {% if user.is_authenticated %}
+        <div><p>Current time: <span id="current-time"></span></p></div>
+        <div id="user-information"><i class="fas fa-user"></i> Welcome, {{ user.username }}!</div>
+    {% endif %}
+</header>
+
+{% if user.is_authenticated %}
+    <div class="container">
+        {% if "main.can_control" in user_per %}
+            <div class="sidebar">
+                <h3>Recycling Monitoring System</h3>
+                <ul>
+                    <li><i class="fas fa-home"></i> <a href="#">Home</a></li>
+                    <li><i class="fas fa-chart-bar"></i> <a href="#">Statistics</a></li>
+                    <li><i class="fas fa-file-alt"></i> <a href="#">Report</a></li>
+                </ul>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
+            </div>
+            <div class="content">
+                <div id="left-side">
+                    <p id="title-div">Real Time Image Classification</p>
+                    <div id="image-div">
+                        <img id="image-frame" src="" alt="live stream">
+                    </div>
+                    <div id="predicted-div">
+                        <p id="predicted-class-text">None</p>
+                    </div>
+                    <div id="predicted-div">
+                        <p id="predicted-subclass-text">None</p>
+                    </div>
+                </div>
+                <div id="right-side">
+                    <div class="firstChart">
+                    <canvas id="chart"></canvas>
+                    </div>
+                    <div class="secondChart">
+                    <canvas id="chart2"></canvas>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="{% static 'kharazmi/scripts/admin.js' %}"></script>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+</body>
+</html>

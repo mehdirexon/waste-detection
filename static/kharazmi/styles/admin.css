@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    font-family: Poppins;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.poppins-thin {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.poppins-extralight {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.poppins-light {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.poppins-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.poppins-medium {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.poppins-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.poppins-extrabold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.poppins-black {
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.poppins-thin-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.poppins-extralight-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: italic;
+}
+
+.poppins-light-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.poppins-regular-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.poppins-medium-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.poppins-semibold-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.poppins-bold-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.poppins-extrabold-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.poppins-black-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+}
+
+
+#logout-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#logout-button:hover {
+    background-color: #555;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sidebar {
+    background-color: #333;
+    color: #fff;
+    width: 210px;
+    height: 100vh;
+    /*position: fixed;    !*top: 0;*!*/
+    /*left: 0;*/
+    padding-top: 60px;
+    flex-basis: 15%;
+    /* Adjust top padding to accommodate the header */
+}
+
+.sidebar h2 {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+
+#start-button {
+    margin-left: 400px;
+    margin-right: 10px;
+}
+
+#stop-button {
+    margin-right: 10px;
+}
+
+#resume-button {
+    margin-right: 10px;
+}
+
+#stop-button {
+}
+
+#image-div {
+    width: 500px;
+    height: 500px;
+    /* text-align: center; */
+    /* margin-bottom: 20px; */
+    /* margin-left: 300px; */
+    /* margin-top: 0; */
+    border: 2px solid #ccc; /* Add border */
+    border-radius: 15px; /* Add border-radius for curved corners */
+}
+
+#user-information {
+    margin-left: auto;
+}
+
+img {
+    width: 500px;
+    height: 500px;
+    max-width: 100%;
+    border-radius: 15px;
+}
+
+#predicted-div {
+    width: 400px;
+    height: 50px;
+    text-align: center;
+    /* margin-left: 350px; */
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#server-status {
+    width: 400px;
+    height: 50px;
+    text-align: center;
+    margin-left: 350px;
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#server-status p {
+    display: inline-block;
+    margin-right: 40px;
+}
+
+#title-div {
+    font-size: 25px;
+    text-align: center;
+}
+
+
+.centered {
+    text-align: center;
+}
+
+#left-side { /*margin: 0;*//*padding: 20px;*//*position: absolute;*//*top: 50%;*//*left: 0; !* Position the left side at the left edge of its containing element *!*//*transform: translateY(-50%);*/
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+div#left-side {
+    gap: 1rem;
+}
+
+div#left-side {
+    flex-basis: 50%;
+}
+
+#right-side {
+    /*width: 50%; !* Set content width to half of the screen *!*/
+    /*height: 80%;*/
+    /*margin: 0;*/
+    /*padding: 20px;*/
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*right: 0; !* Position the right side at the right edge of its containing element *!*/
+    /*transform: translateY(-50%);*/
+    /* width: 100%; */
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column-reverse;
+    align-content: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+div#right-side {
+    flex-basis: 30%;
+}
+
+#camera-status {
+
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-basis: 80%;
+    gap: 3rem;
+    /* flex-wrap: wrap; */
+    /* flex-direction: row-reverse; */
+    /* align-content: center; */
+    /* justify-content: space-between; */
+    /* align-items: flex-start; */
+}
+
+.firstChart {
+    width: 900px;
+    height: 400px;
+}
+
+.secondChart {
+    width: 600px;
+    height: 400px;
+}
+
+#chart {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    /* max-width: 1488px; */
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+}
+
