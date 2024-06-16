@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+html {
+    /* This defines what 1rem is*/
+    font-size: 62.5%;
+}
+
 .poppins-thin {
     font-family: "Poppins", sans-serif;
     font-weight: 100;
@@ -117,15 +122,18 @@
 
 
 #logout-button {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    padding: 10px 20px;
+    width: 85%;
+    box-sizing: border-box;
+    font-size: 1.3rem;
+    position: absolute;
+    bottom: 2rem;
+    padding: 1.5rem;
     background-color: #333;
     color: #fff;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: .6rem;
+    text-align: justify;
 }
 
 #logout-button:hover {
@@ -135,40 +143,75 @@
 header {
     background-color: #333;
     color: #fff;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: flex-end;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+}
+
+#toggle-sidebar {
+    display: none;
+}
+
+.toggle-button {
+    position: fixed;
+    top: .5rem;
+    left: 1rem;
+    cursor: pointer;
+}
+
+.current-time {
+    margin-left: 2rem;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
 }
 
 .sidebar {
     background-color: #333;
     color: #fff;
-    width: 210px;
+    width: 26rem;
+    padding: 4rem 2rem;
     height: 100vh;
-    /*position: fixed;    !*top: 0;*!*/
-    /*left: 0;*/
-    padding-top: 60px;
+    position: fixed;
+    top: 0;
     flex-basis: 15%;
     /* Adjust top padding to accommodate the header */
+    transition: transform 0.3s ease;
 }
 
-.sidebar h2 {
-    text-align: center;
-    padding: 20px 0;
+.sidebar h3 {
+    padding-top: 1.2rem;
+    text-align: left;
+    font-size: 1.4rem;
 }
 
 .sidebar ul {
+    padding-top: 2rem;
     list-style-type: none;
+    width: 100%;
 }
 
 .sidebar ul li {
-    padding: 10px 0;
-    text-align: center;
+    font-size: 1.3rem;
+    padding: 0;
+    text-align: left;
 }
 
-.sidebar ul li a {
+.sidebar ul li a{
+    display: block;
+    padding: 1.5rem;
+    width: 100%;
     color: #fff;
     text-decoration: none;
+    border-radius: .6rem;
 }
 
 .sidebar ul li a:hover {
@@ -177,30 +220,26 @@ header {
 
 
 #start-button {
-    margin-left: 400px;
-    margin-right: 10px;
+    margin-left: 40rem;
+    margin-right: 1rem;
 }
 
 #stop-button {
-    margin-right: 10px;
+    margin-right: 1rem;
 }
 
 #resume-button {
-    margin-right: 10px;
+    margin-right: 1rem;
 }
 
-#stop-button {
-}
+/* #stop-button {
+} */
 
 #image-div {
-    width: 500px;
-    height: 500px;
-    /* text-align: center; */
-    /* margin-bottom: 20px; */
-    /* margin-left: 300px; */
-    /* margin-top: 0; */
+    width: 48rem;
+    height: 40rem;
     border: 2px solid #ccc; /* Add border */
-    border-radius: 15px; /* Add border-radius for curved corners */
+    border-radius: 1.5rem; /* Add border-radius for curved corners */
 }
 
 #user-information {
@@ -208,41 +247,41 @@ header {
 }
 
 img {
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: 100%;
     max-width: 100%;
-    border-radius: 15px;
+    border-radius: 1.5rem;
 }
 
 #predicted-div {
-    width: 400px;
-    height: 50px;
+    width: 40rem;
+    height: 5rem;
     text-align: center;
-    /* margin-left: 350px; */
-    margin-top: 20px;
+    margin-top: 2rem;
     background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: .5rem;
 }
 
 #server-status {
-    width: 400px;
-    height: 50px;
+    width: 40rem;
+    height: 5rem;
     text-align: center;
-    margin-left: 350px;
-    margin-top: 20px;
+    margin-left: 35rem;
+    margin-top: 2rem;
     background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: .5rem;
 }
 
 #server-status p {
     display: inline-block;
-    margin-right: 40px;
+    margin-right: 4rem;
 }
 
 #title-div {
-    font-size: 25px;
+    padding: 1rem;
+    font-size: 1.6rem;
     text-align: center;
 }
 
@@ -251,8 +290,7 @@ img {
     text-align: center;
 }
 
-#left-side { /*margin: 0;*//*padding: 20px;*//*position: absolute;*//*top: 50%;*//*left: 0; !* Position the left side at the left edge of its containing element *!*//*transform: translateY(-50%);*/
-    width: 100%;
+#left-side {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -269,51 +307,40 @@ div#left-side {
 }
 
 #right-side {
-    /*width: 50%; !* Set content width to half of the screen *!*/
-    /*height: 80%;*/
-    /*margin: 0;*/
-    /*padding: 20px;*/
-    /*position: absolute;*/
-    /*top: 50%;*/
-    /*right: 0; !* Position the right side at the right edge of its containing element *!*/
-    /*transform: translateY(-50%);*/
-    /* width: 100%; */
-    /* height: 100%; */
     display: flex;
     flex-direction: column-reverse;
     align-content: center;
     flex-wrap: nowrap;
     justify-content: center;
+    /* height: 100vh; */
 }
 
 div#right-side {
     flex-basis: 30%;
 }
 
-#camera-status {
+/* #camera-status {
 
-}
+} */
 
 .content {
     width: 100%;
+    margin-left: 27rem;
     display: flex;
     flex-basis: 80%;
     gap: 3rem;
-    /* flex-wrap: wrap; */
-    /* flex-direction: row-reverse; */
-    /* align-content: center; */
-    /* justify-content: space-between; */
-    /* align-items: flex-start; */
+    overflow: hidden;
+    margin-top: 3rem;
 }
 
 .firstChart {
-    width: 900px;
-    height: 400px;
+    width: 90rem;
+    height: 30rem; /* Old size 40rem*/
 }
 
 .secondChart {
-    width: 600px;
-    height: 400px;
+    width: 90rem;
+    height: 30rem;
 }
 
 #chart {
@@ -321,12 +348,15 @@ div#right-side {
     height: 100%;
 }
 
-.container {
-    /* max-width: 1488px; */
-    width: 100%;
-    display: flex;
-    gap: 1rem;
-    flex-direction: row;
-    align-items: center;
+.error-img {
+    display: block;
+    width: 60rem;
+    height: 50rem;
+    margin: 0 auto;
 }
 
+.error-msg {
+    display: block;
+    font-size: 3rem;
+    text-align: center;
+}

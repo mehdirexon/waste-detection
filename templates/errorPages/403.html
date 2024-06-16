@@ -1,22 +1,29 @@
 {% load static %}
 
 <html lang="en">
-    <head>
-        <title>You don't have access</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'kharazmi/styles/403.css'%}">
-    </head>
 
-    <div class="text-wrapper">
-        <div class="title" data-content="404">
-            403 - ACCESS DENIED
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Access Denied</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'kharazmi/styles/admin.css'%}">
+</head>
+<body>
 
-        <div class="subtitle">
-            Oops, You don't have permission to access this page.
-        </div>
-        <div class="isi">
-            You're seeing this message because you don't have access to this page. If you believe this is incorrect and you need to proceed, please authenticate on the /admin page. Otherwise, feel free to reach out to our support team for assistance.
-        </div>
-    </div>
+    <img src="{% static 'kharazmi/images/403.jpg'%}" alt="403 - access denied" class="error-img">
+    <p class="error-msg">You don't have permission to access this resource.</p>
+    <script>
+        document.querySelector('.error-img').addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth - 0.5;
+            const y = e.clientY / window.innerHeight - 0.5;
+            this.style.transform = `translate(${x * 100}px, ${y * 100}px)`;
+        });
 
+        document.querySelector('.error-img').addEventListener('mouseleave', function() {
+            this.style.transform = 'translate(0, 0)';
+        });
+    </script>
+</body>
 </html>

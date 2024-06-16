@@ -3,11 +3,12 @@ const predicted_class_text = document.getElementById('predicted-class-text');
 const current_time = document.getElementById('current-time');
 const predicted_subclass_text = document.getElementById('predicted-subclass-text');
 const categories = ["cardboard", "glass", "metal", "paper", "plastic", "trash"];
+const detailed_categories = ["HDPE", "PETE", "green", "brown", "transparent", "colored", "white"];
 
 var counts = [0, 0, 0, 0, 0, 0];
-var processedIDs = new Set();
+var processedIDs = new Map(); // Changed to Map to track IDs with their categories
 
-// update the time in the header
+// Update the time in the header
 function updateTime() {
     const now = new Date();
     current_time.innerText = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
@@ -15,6 +16,25 @@ function updateTime() {
 
 updateTime();
 setInterval(updateTime, 1000);
+
+$(document).ready(function() {
+    var isSidebarOpen = true;
+
+    $(".sidebar").css("transform", "translateX(0)");
+    $(".content").css("margin-left", "27rem");
+
+    $(".toggle-button").click(function() {
+        if (isSidebarOpen) {
+            $(".sidebar").css("transform", "translateX(-26rem)");
+            $(".content").css("margin-left", "2rem");
+            isSidebarOpen = false;
+        } else {
+            $(".sidebar").css("transform", "translateX(0)");
+            $(".content").css("margin-left", "27rem");
+            isSidebarOpen = true;
+        }
+    });
+});
 
 class AdminSocket {
     constructor() {
@@ -39,19 +59,31 @@ class AdminSocket {
         const class_name = data['outputs']['class'].slice(0, -6).trim();
         const tracker_id = data['outputs']['class'].slice(-2).trim();
 
+        const subclass_name = data['outputs']['subclass'].slice(-4).trim();
+
+        // Validate tracker_id is a number
+        if (isNaN(tracker_id)) {
+            console.log('Invalid tracker ID:', tracker_id);
+            return;
+        }
+
         // Debug mode
         console.log(class_name, tracker_id);
 
-        // Update the chart only if the ID is new
-        if (!processedIDs.has(tracker_id)) {
-            processedIDs.add(tracker_id);
-            const itemIndex = categories.indexOf(class_name);
-            if (itemIndex !== -1) {
-                myChart.data.datasets[0].data[itemIndex] += 1;
-                myChart2.data.datasets[0].data[itemIndex] += 1;
-                myChart.update();
-                myChart2.update();
-            }
+        // Check if the ID already exists
+        if (processedIDs.has(tracker_id)) {
+            return;
+        }
+
+        // If the ID is new, add it to the map and increment the category count
+        processedIDs.set(tracker_id, class_name);
+        const itemIndex = categories.indexOf(class_name);
+        if (itemIndex !== -1) {
+            counts[itemIndex] += 1;
+            GeneralChart.data.datasets[0].data[itemIndex] += 1;
+            DetailedChart.data.datasets[0].data[itemIndex] += 1;
+            GeneralChart.update();
+            DetailedChart.update();
         }
     }
 
@@ -81,15 +113,15 @@ class AdminSocket {
 const adminSocket = new AdminSocket();
 
 // Create the chart
-const ctx = document.getElementById('chart').getContext('2d');
-const ctx2 = document.getElementById('chart2').getContext('2d');
+const generalChart = document.getElementById('general-chart').getContext('2d');
+const detailedChart = document.getElementById('detailed-chart').getContext('2d');
 
-const chartConfig = {
+const general_chart = {
     type: 'bar',
     data: {
         labels: categories,
         datasets: [{
-            label: 'Number of wastes',
+            label: 'General Wastes',
             data: counts,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.6)',
@@ -143,5 +175,67 @@ const chartConfig = {
     }
 };
 
-const myChart = new Chart(ctx, chartConfig);
-const myChart2 = new Chart(ctx2, chartConfig);
+
+const detailed_chart = {
+    type: 'bar',
+    data: {
+        labels: detailed_categories,
+        datasets: [{
+            label: 'Detailed Wastes',
+            data: counts,
+            backgroundColor: [
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(75, 192, 192, 0.6)'
+            ],
+            borderColor: [
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    fontColor: '#333', // Change font color
+                    fontFamily: 'Poppins' // Change font family
+                },
+                gridLines: {
+                    color: 'rgba(0, 0, 0, 0.1)' // Change grid line color
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontColor: '#333', // Change font color
+                    fontFamily: 'Poppins' // Change font family
+                },
+                gridLines: {
+                    color: 'rgba(0, 0, 0, 0)' // Hide x-axis grid lines
+                }
+            }]
+        },
+        legend: {
+            labels: {
+                fontColor: '#333', // Change legend font color
+                fontFamily: 'Poppins' // Change legend font family
+            }
+        }
+    }
+};
+
+const GeneralChart = new Chart(generalChart, general_chart);
+const DetailedChart = new Chart(detailedChart, detailed_chart);

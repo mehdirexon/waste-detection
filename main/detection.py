@@ -27,7 +27,7 @@ class RecyclingClassifier:
         text_scale=1
     )
 
-    yolo_model: YOLO = YOLO(os.path.join(project_dir, 'models', 'machine vision', 'best.pt'),
+    yolo_model: YOLO = YOLO(os.path.join(project_dir, 'models', 'machine vision', 'best1.pt'),
                             task='detect')
 
     plastic_model: torch.nn.Module = torch.load(

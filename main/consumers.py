@@ -9,7 +9,7 @@ import cv2
 import asyncio
 from typing import Optional, Any, Dict
 from .detection import RecyclingClassifier
-import os
+import os , time
 
 
 class MainConsumer(AsyncWebsocketConsumer):
@@ -53,7 +53,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             # Predicting (first detection layer)
             results = \
-                RecyclingClassifier.yolo_model.track(frame, agnostic_nms=True, persist=True, conf=0.65, iou=0.7,
+                RecyclingClassifier.yolo_model.track(frame, agnostic_nms=True, persist=True, conf=0.6,iou=0.8,
                                                      save_crop=True, verbose=False)[
                     0]
             detections = RecyclingClassifier.detect(results)
@@ -108,6 +108,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                         }
                     }
                 )
+
             else:
                 img: Image.Image = Image.fromarray(frame)
                 buffered_output: BytesIO = BytesIO()

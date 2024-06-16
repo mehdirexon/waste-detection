@@ -12,8 +12,3 @@ class NewPermissions(models.Model):
             ("can_send_pictures",
              "Can send the pictures to the server to be processed by the image classification model"),
         ]
-
-
-# class MyForm(ModelForm):
-#     class Meta:
-#         raise NotImplemented("Havent Done Yet :)")
