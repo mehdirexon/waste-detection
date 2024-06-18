@@ -11,6 +11,7 @@ In this project, the goal was to create an application capable of detecting wast
 - [Features](#-features)
 - [Installation](#️-installation)
 - [Usage](#-usage)
+- [TODO](#-todo)
 - [License](#-license)
 - [Contact](#-contact)
 - [Thanks](#-thanks)
@@ -43,82 +44,89 @@ In this project, the goal was to create an application capable of detecting wast
     pip install -r requirements.txt
     ```
 
-## 📚 Usage
-
-After installing Django and its components, you need to update some settings.
-
-1. **Update `ALLOWED_HOSTS`:**
-    - Add your server IP address to the `ALLOWED_HOSTS` list in `settings.py`.
-
-2. **Add required apps to `INSTALLED_APPS`:**
-    - Add `daphne` and `main` apps to the `INSTALLED_APPS` list in `settings.py`.
-
-3. **Configure Channels and Redis:**
-    - Add these lines to `settings.py` to set up channels and Redis:
-    ```python
-    redis_host = os.environ.get('REDIS_HOST', 'localhost')
-
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [(redis_host, 6379)],
-            },
-        },
-    }
+4. **Start a Django Project** (if not already created):
+    ```bash
+    django-admin startproject your_base_app
+    cd your_base_app
     ```
 
-4. **Update TEMPLATES:**
-    - Add `'DIRS': [BASE_DIR / 'templates']` to the `TEMPLATES` list in `settings.py`:
-    ```python
-    TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [BASE_DIR / 'templates'],
+5. **Set up Django settings:**
+
+    - **Update `ALLOWED_HOSTS`**:
+        ```python
+        ALLOWED_HOSTS = ['your_server_ip', 'localhost']
+        ```
+
+    - **Add required apps to `INSTALLED_APPS`**:
+        ```python
+        INSTALLED_APPS = [
             ...
-        },
-    ]
-    ```
+            'daphne',
+            'main',
+        ]
+        ```
 
-5. **Set WSGI and ASGI applications:**
-    - Ensure these lines are in `settings.py`:
-    ```python
-    WSGI_APPLICATION = 'your_base_app.wsgi.application'
-    ASGI_APPLICATION = 'your_base_app.asgi.application'
-    ```
+    - **Configure Channels and Redis**:
+        ```python
+        redis_host = os.environ.get('REDIS_HOST', 'localhost')
 
-6. **Configure Static Files:**
-    - Add these lines to `settings.py`:
-    ```python
-    STATIC_URL = '/static/'
+        CHANNEL_LAYERS = {
+            "default": {
+                "BACKEND": "channels_redis.core.RedisChannelLayer",
+                "CONFIG": {
+                    "hosts": [(redis_host, 6379)],
+                },
+            },
+        }
+        ```
 
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
-    ]
-    ```
+    - **Update TEMPLATES**:
+        ```python
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [BASE_DIR / 'templates'],
+                ...
+            },
+        ]
+        ```
 
-7. **Create and configure `asgi.py`:**
-    - In your base app, create or update `asgi.py` with the following code:
-    ```python
-    import os
-    from django.core.asgi import get_asgi_application
-    from channels.routing import ProtocolTypeRouter, URLRouter
-    from channels.auth import AuthMiddlewareStack
-    from main.routing import websocket_urlpatterns
+    - **Set WSGI and ASGI applications**:
+        ```python
+        WSGI_APPLICATION = 'your_base_app.wsgi.application'
+        ASGI_APPLICATION = 'your_base_app.asgi.application'
+        ```
 
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_base_app.settings')
+    - **Configure Static Files**:
+        ```python
+        STATIC_URL = '/static/'
 
-    application = ProtocolTypeRouter({
-        "http": get_asgi_application(),
-        "websocket": AuthMiddlewareStack(
-            URLRouter(
-                websocket_urlpatterns
-            )
-        ),
-    })
-    ```
+        STATICFILES_DIRS = [
+            os.path.join(BASE_DIR, 'static'),
+        ]
+        ```
 
-8. **Run the server:**
+    - **Create and configure `asgi.py`**:
+        ```python
+        import os
+        from django.core.asgi import get_asgi_application
+        from channels.routing import ProtocolTypeRouter, URLRouter
+        from channels.auth import AuthMiddlewareStack
+        from main.routing import websocket_urlpatterns
+
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_base_app.settings')
+
+        application = ProtocolTypeRouter({
+            "http": get_asgi_application(),
+            "websocket": AuthMiddlewareStack(
+                URLRouter(
+                    websocket_urlpatterns
+                )
+            ),
+        })
+        ```
+
+6. **Run the server:**
     - Use this command to ensure everything is working properly:
     ```bash
     python manage.py runserver
@@ -132,12 +140,23 @@ After installing Django and its components, you need to update some settings.
     Quit the server with CONTROL-C.
     ```
 
-9. **Create a superuser and access the admin interface:**
+7. **Create a superuser and access the admin interface:**
     - Create a superuser:
     ```bash
     python manage.py createsuperuser
     ```
     - Run the server and visit `http://192.168.1.101:8000/login`, then log in with your credentials.
+
+## ✅ TODO
+
+- [ ] Complete multidetection on the JS side
+- [ ] Improve model accuracy for waste detection
+- [ ] Add more tests units
+- [ ] Enhance the user interface for better UX
+- [ ] Optimize real-time processing for lower latency
+- [ ] Create detailed documentation for developers
+- [ ] Set up continuous integration and deployment
+
 
 ## 📜 License
 
@@ -156,13 +175,6 @@ This project was created and continued in memory of my dear friend, Seyed Sajad 
   <img src="https://contrib.rocks/image?repo=mehdirexon/Nobitex-Crypto-Price-Extractor" />
 </a>
 
-<a href="https://github.com/amirmasoudzamani/">
-  <img src="https://contrib.rocks/image?repo=amirmasoudzamani/HTML-Tutorial"/>
-</a>
-
-<a href="https://github.com/sajadsafaei">
-  <img src="https://contrib.rocks/image?repo=sajadsafaei/140108232"/>
-</a>
 
 ---
 
