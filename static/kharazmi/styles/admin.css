@@ -319,10 +319,6 @@ div#right-side {
     flex-basis: 30%;
 }
 
-/* #camera-status {
-
-} */
-
 .content {
     width: 100%;
     margin-left: 27rem;
@@ -335,7 +331,7 @@ div#right-side {
 
 .firstChart {
     width: 90rem;
-    height: 30rem; /* Old size 40rem*/
+    height: 30rem;
 }
 
 .secondChart {

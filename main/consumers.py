@@ -53,8 +53,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             # Predicting (first detection layer)
             results = \
-                RecyclingClassifier.yolo_model.track(frame, agnostic_nms=True, persist=True, conf=0.6,iou=0.8,
-                                                     save_crop=True, verbose=False)[
+                RecyclingClassifier.yolo_model.track(frame, agnostic_nms=True, persist=True, conf=0.6,iou=0.2,verbose=False)[
                     0]
             detections = RecyclingClassifier.detect(results)
 
