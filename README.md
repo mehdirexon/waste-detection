@@ -2,7 +2,7 @@
 
 [![English](https://img.shields.io/badge/Language-English-blue)](README.md) [![Persian](https://img.shields.io/badge/Language-Persian-green)](README.fa.md)
 
-This project is created for **Khwarizmi Youth Awards** by Mehdi Ghazanfari.
+This project is created for **Khwarizmi Youth Festival** by Mehdi Ghazanfari.
 
 In this project, the goal was to create an application capable of detecting waste on a conveyor belt. By following precise instructions to run the project, you will be able to use the code. Utilizing elements like Django for the web server and PyTorch for AI provides flexibility in development while keeping it user-friendly. This is not the final project code, but it has passed the MVP stage to ensure functionality. If the instructions are insufficient, feel free to contact me via the Contact section for assistance.
 
@@ -145,7 +145,7 @@ In this project, the goal was to create an application capable of detecting wast
     ```bash
     python manage.py createsuperuser
     ```
-    - Run the server and visit `http://192.168.1.101:8000/login`, then log in with your credentials.
+    - Run the server and visit `http://your_server_ipaddress:8000/login`, then log in with your credentials.
 
 ## ✅ TODO
 
@@ -172,7 +172,7 @@ This project was created and continued in memory of my dear friend, Seyed Sajad 
 
 ## Contributers
 <a href="https://github.com/mehdirexon/">
-  <img src="https://contrib.rocks/image?repo=mehdirexon/Nobitex-Crypto-Price-Extractor" />
+  <img src="https://contrib.rocks/image?repo=mehdirexon/waste-detection" />
 </a>
 
 
