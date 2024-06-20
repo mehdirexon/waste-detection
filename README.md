@@ -149,7 +149,7 @@ In this project, the goal was to create an application capable of detecting wast
 
 ## ✅ TODO
 
-- [ ] Complete multidetection on the JS side
+- [X] Adding multi detection
 - [ ] Improve model accuracy for waste detection
 - [ ] Add more tests units
 - [ ] Enhance the user interface for better UX
