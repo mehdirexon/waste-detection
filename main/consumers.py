@@ -9,7 +9,7 @@ import cv2
 import asyncio
 from typing import Optional, Any, Dict
 from .detection import RecyclingClassifier
-import os , time
+import os, time
 
 
 class MainConsumer(AsyncWebsocketConsumer):
@@ -53,7 +53,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             # Predicting (first detection layer)
             results = \
-                RecyclingClassifier.yolo_model.track(frame, agnostic_nms=True, persist=True, conf=0.6,iou=0.2,verbose=False)[
+                RecyclingClassifier.yolo_model.track(frame, agnostic_nms=True, persist=True, conf=0.6, iou=0.8,
+                                                     verbose=False)[
                     0]
             detections = RecyclingClassifier.detect(results)
 
@@ -62,7 +63,8 @@ class MainConsumer(AsyncWebsocketConsumer):
                     f"{RecyclingClassifier.yolo_model.names[class_id]} {confidence:0.2f} {tracker_id}"
                     for xyxy, mask, confidence, class_id, tracker_id, data in detections
                 ]
-
+                if len(detections.class_id) > 1:
+                    print(detections.class_id)
                 output: cv2.Mat = RecyclingClassifier.box_annotator.annotate(scene=frame, detections=detections,
                                                                              labels=labels)
 
@@ -78,23 +80,29 @@ class MainConsumer(AsyncWebsocketConsumer):
                 img_transformed: torch.Tensor = RecyclingClassifier.transform(cropped)
                 img_transformed = img_transformed.unsqueeze(0)
 
-                # Extract the class name from the first label
-                class_name: str = labels[0][:-4].split()[0]
-                subclass_label: str = "none"
+                class_full_label: str = ""
+                subclass_full_label: str = ""
 
-                # Dynamically select the model based on the class name(second detection layer)
-                if class_name in self.model_map:
-                    model: Optional[torch.nn.Module] = self.model_map[class_name]
-                    if model is not None:
-                        with torch.no_grad():
-                            outputs: torch.Tensor = model(img_transformed)
-                            test, predicted_tensor = torch.max(outputs, 1)
-                            subclass: numpy.ndarray = predicted_tensor.numpy()[0]
-                            probabilities: float = round(torch.softmax(outputs, dim=1).tolist()[0][
-                                                             subclass], 2)
-                            subclass_label = RecyclingClassifier.subclasses[class_name][
-                                                 subclass] + " " + str(probabilities)
-                        cropped.close()
+                for i, label in enumerate(labels):
+                    # Extract the class name from the first label
+                    class_name: str = labels[i].split(" ")[0]
+                    class_full_label += label + ';'
+                    # class_name: str = labels[i][:-4].split()[0]
+
+                    # Dynamically select the model based on the class name(second detection layer)
+                    if class_name in self.model_map:
+                        model: Optional[torch.nn.Module] = self.model_map[class_name]
+                        if model is not None:
+                            with torch.no_grad():
+                                outputs: torch.Tensor = model(img_transformed)
+                                test, predicted_tensor = torch.max(outputs, 1)
+                                subclass: numpy.ndarray = predicted_tensor.numpy()[0]
+                                probabilities: float = round(torch.softmax(outputs, dim=1).tolist()[0][
+                                                                 subclass], 2)
+                                subclass_label = RecyclingClassifier.subclasses[class_name][
+                                                     subclass] + " " + str(probabilities)
+                                subclass_full_label += subclass_label + ';'
+                            cropped.close()
 
                 await self.channel_layer.group_send(
                     self.group_name,
@@ -102,7 +110,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                         'type': 'broadcast_outputs',
                         'ai_output': {
                             "class": labels[0],
-                            "subclass": subclass_label,
+                            "subclass": subclass_full_label,
                             "image": buffered_output_base64
                         }
                     }

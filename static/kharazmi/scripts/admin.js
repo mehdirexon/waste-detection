@@ -6,7 +6,6 @@ const categories = ["cardboard", "glass", "metal", "paper", "plastic", "trash"];
 const detailed_categories = ["HDPE", "PETE", "green", "brown", "transparent", "colored", "white"];
 
 
-
 var processedIDs = new Map(); // Changed to Map to track IDs with their categories
 
 // Update the time in the header
@@ -53,48 +52,73 @@ class AdminSocket {
 
     onmessage(event) {
         const data = JSON.parse(event.data);
+
+        // Add prefix and filling the image frame
+
         imageFrame.src = 'data:image/jpeg;base64,' + data['outputs']['image'];
 
-        const class_label = data['outputs']['class'];
-        const subclass_label = data['outputs']['subclass'];
+        // Get data from json
 
-        const class_label_parts = class_label.split(' ');
-        const subclass_label_parts = subclass_label.split(' ');
+        const classesLabel = data['outputs']['class'];
+        const subclassesLabel = data['outputs']['subclass'];
 
+        // Split by ';'
 
-        const classIndex = categories.indexOf(class_label_parts[0]);
-        const subClassIndex = detailed_categories.indexOf(subclass_label_parts[0]);
+        const classes = classesLabel.split(';');
+        const subclasses = subclassesLabel.split(';');
 
-        predicted_class_text.textContent = class_label_parts[0];
-        predicted_subclass_text.textContent = subclass_label_parts[0];
+        //////// Fill Circular Graph ////////
 
+        for (const [index, value] of classes.entries()) {
 
+            // check if duplicated object is detected to avoid wrong appending to the chart
+            const ID = value.split(" ")[2];// just the ID
+            const classLabel = value.split(" ")[0];// just the label
+            const classIndex = categories.indexOf(classLabel);
 
-
-        if (isNaN(class_label_parts[2])) {
-            console.log('Invalid tracker ID:', class_label_parts[2]);
-            return;
-        }
-
-        // Check if the ID already exists
-        if (processedIDs.has(class_label_parts[2])) {
-            return;
-        }
-
-        // If the ID is new, add it to the map and increment the category count
-        processedIDs.set(class_label_parts[2], class_label_parts[0]);
-
-
-        if (classIndex !== -1) {
-
-            GeneralChart.data.datasets[0].data[classIndex] += 1;
-            DetailedChart.data.datasets[0].data[subClassIndex] += 1;
             PieChart.data.datasets[0].data[classIndex] += 1;
-            GeneralChart.update();
-            DetailedChart.update();
-            PieChart.update();
+            // if ID is not valid
+            if (isNaN(ID)) {
+                console.log('Invalid tracker ID');
+                continue;
+            }
+
+            // Check if the ID already exists
+            if (processedIDs.has(ID)) {
+                console.log('Duplicate tracker ID');
+                continue;
+            }
+
+            // If the ID is new, add it to the map and increment the category count
+            processedIDs.set(ID, classLabel);
+
+            if (classLabel !== "metal" || classLabel !== "trash" || classLabel !== "cardboard") {
+                const subClassLabel = subclasses[index].split(" ")[0] // just the label
+                const subClassIndex = detailed_categories.indexOf(subClassLabel);
+                if (subClassIndex !== -1) {
+                    DetailedChart.data.datasets[0].data[subClassIndex] += 1;
+                }
+            }
+
+            if (classIndex !== -1) {
+                GeneralChart.data.datasets[0].data[classIndex] += 1;
+
+            }
         }
-        PieChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+        PieChart.update();
+        GeneralChart.update();
+        DetailedChart.update();
+
+
+        if (this.resetTimeout) {
+            clearTimeout(this.resetTimeout);
+        }
+
+        // Set a timeout to reset the graph data after a short delay
+        this.resetTimeout = setTimeout(() => {
+            PieChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+            PieChart.update();
+        }, 50); // Adjust the delay as needed (500 ms here)
     }
 
     onerror(event) {
@@ -128,7 +152,7 @@ const detailedChart = document.getElementById('detailed-chart').getContext('2d')
 const pieChart = document.getElementById('pie-chart').getContext('2d');
 
 let pieChartData = [0, 0, 0, 0, 0, 0];
-const pie_chart =  {
+const pie_chart = {
     type: 'polarArea',
     data: {
         labels: categories,
