@@ -31,15 +31,15 @@ class RecyclingClassifier:
                             task='detect')
 
     plastic_model: torch.nn.Module = torch.load(
-        os.path.join(project_dir, 'models', 'image classification', 'plastic_model.pth'))
+        os.path.join(project_dir, 'models', 'image classification', 'plastic1_model.pth'))
     plastic_model.eval()
 
     glass_model: torch.nn.Module = torch.load(
-        os.path.join(project_dir, 'models', 'image classification', 'glass_model.pth'))
+        os.path.join(project_dir, 'models', 'image classification', 'glass1_model.pth'))
     glass_model.eval()
 
     paper_model: torch.nn.Module = torch.load(
-        os.path.join(project_dir, 'models', 'image classification', 'paper_model.pth'))
+        os.path.join(project_dir, 'models', 'image classification', 'paper1_model.pth'))
     paper_model.eval()
 
     @classmethod
