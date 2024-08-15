@@ -150,11 +150,11 @@ In this project, the goal was to create an application capable of detecting wast
 ## ✅ TODO
 
 - [X] Adding multi detection
-- [ ] Improve model accuracy for waste detection
+- [X] Improve model accuracy for waste detection
 - [ ] Add more tests units
-- [ ] Enhance the user interface for better UX
-- [ ] Optimize real-time processing for lower latency
-- [ ] Create detailed documentation for developers
+- [X] Enhance the user interface for better UX
+- [X] Optimize real-time processing for lower latency
+- [X] Create detailed documentation for developers
 - [ ] Set up continuous integration and deployment
 
 
